@@ -1,6 +1,7 @@
 #! /usr/bin/bash
 
 base="/run/media/small_torba/obs_vids"
+unsbase="/run/media/small_torba/obs_vids/unsorted"
 desktop=(
     "foot" "Steam" "Discord" "Zen Browser" "Telegram" "OBS 32.0.4 - Profile: Untitled - Scenes: Untitled"
 )
@@ -18,9 +19,9 @@ for i in "${desktop[@]}"; do
 	fi
 done
 
-if [[ -n "$(ls -A "$base/unsorted")" && $ShGODesktop != 1 ]]; then
+if [[ -n "$(ls -A "$unsbase")" && $ShGODesktop != 1 ]]; then
     notify-send "Saving clip to: $title"
-elif [[ -n "$(ls -A "$base/unsorted")" && $ShGODesktop == 1 ]]; then
+elif [[ -n "$(ls -A "$unsbase")" && $ShGODesktop == 1 ]]; then
     notify-send "Saving clip to: desktop"
 else
     notify-send "Didn't save any file"
