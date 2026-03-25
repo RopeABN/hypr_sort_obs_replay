@@ -40,7 +40,7 @@ fi
 
 # might want to change that to make every file move, not just .mp4
 if [[ -z $title || $ShGODesktop == 1 ]]; then
-	mv $unsorted_base/*.mp4 "$base/Desktop/"
+	mv "$unsorted_base"/*.mp4 "$base/Desktop"
 else
-	mv $unsorted_base/*.mp4 "$base/$title"
+	mv "$unsorted_base"/*.mp4 "$base/$title"
 fi
