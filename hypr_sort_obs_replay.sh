@@ -9,12 +9,12 @@ title=`hyprctl activewindow | rg -N --trim initialTitle: -r ''`
 title=$(printf "%s" "$title" | tr -cd '[:print:]') # to cut every hidden char
 
 for i in "${desktop[@]}"; do
-	if [[ $title == "$i" ]] ; then
-		ShGODesktop=1
-		# echo "$i exists" # for debug
-	else
-		:
-	fi
+    if [[ $title == "$i" ]] ; then
+        ShGODesktop=1
+        # echo "$i exists" # for debug
+    else
+        :
+    fi
 done
 
 j=0
@@ -29,18 +29,18 @@ elif [[ $ShGODesktop == 1 ]]; then
     notify-send "Saving clip to: desktop"
 fi
 
-sleep 5
 # wait for obs to save the clip. Just in case
+sleep 5
 
 if [[ $ShGODesktop != 1 ]]; then
-	mkdir -p "$base/$title"
+    mkdir -p "$base/$title"
 else
-	:
+    :
 fi
 
 # might want to change that to make every file move, not just .mp4
 if [[ -z $title || $ShGODesktop == 1 ]]; then
-	mv "$unsorted_base"/*.mp4 "$base/Desktop"
+    mv "$unsorted_base"/*.mp4 "$base/Desktop"
 else
-	mv "$unsorted_base"/*.mp4 "$base/$title"
+    mv "$unsorted_base"/*.mp4 "$base/$title"
 fi
