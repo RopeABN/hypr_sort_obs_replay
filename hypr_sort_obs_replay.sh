@@ -3,23 +3,19 @@
 base="/run/media/small_torba/obs_vids"
 unsorted_base="/run/media/small_torba/obs_vids/unsorted"
 desktop=(
-    "foot" "Steam" "Discord" "Zen Browser" "Telegram" "OBS 32.0.4 - Profile: Untitled - Scenes: Untitled"
+    "foot" "Steam" "Discord" "Zen Browser" "Telegram" "OBS"
 )
 title=`hyprctl activewindow | rg -N --trim initialTitle: -r ''`
-title=$(printf "%s" "$title" | tr -cd '[:print:]') # to cut every hidden char
+title=$(printf "%s" "$title" | tr -cd '[:print:]') # to cut every hidden char "I love ARC Raiders"
 
+# if you are wondering what is * doing around "$i" https://stackoverflow.com/a/229606
 for i in "${desktop[@]}"; do
-    if [[ $title == "$i" ]] ; then
+    if [[ $title == *"$i"* ]] ; then
         ShGODesktop=1
     fi
 done
 
-j=0
-# while [[ -z "$(ls -A "$unsorted_base")" && $j != 10 ]]; do
-#     ((j++))
-#     sleep 1
-# done
-
+j=0 # in wait_to_notify wir are waiting 10 seconds for any file to appear
 wait_to_notify () {
     if [[ -z "$(ls -A "$unsorted_base")" && $j != 10 ]]; then
         ((j++))
@@ -41,9 +37,7 @@ else
 fi
 
 # wait for obs to save the clip. Just in case
-echo "Waiting for obs"
 sleep 3
-echo "Stopping to wait for obs"
 
 if [[ $ShGODesktop != 1 ]]; then
     mkdir -p "$base/$title"
