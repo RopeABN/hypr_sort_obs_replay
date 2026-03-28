@@ -11,7 +11,7 @@ title=$(printf "%s" "$title" | tr -cd '[:print:]') # to cut every hidden char "I
 # if you are wondering what is * doing around "$i" https://stackoverflow.com/a/229606
 for i in "${desktop[@]}"; do
     if [[ $title == *"$i"* ]] ; then
-        ShGODesktop=1
+        GoToDesktop=1
     fi
 done
 
@@ -28,9 +28,9 @@ wait_to_notify () {
 }
 wait_to_notify
 
-if [[ $ShGODesktop != 1 && $skip != 1 ]]; then
+if [[ $GoToDesktop != 1 && $skip != 1 ]]; then
     notify-send "Saving clip to: $title"
-elif [[ $ShGODesktop == 1 && $skip != 1 ]]; then
+elif [[ $GoToDesktop == 1 && $skip != 1 ]]; then
     notify-send "Saving clip to: desktop"
 else
     notify-send "Didn't save any file"
@@ -39,14 +39,14 @@ fi
 # wait for obs to save the clip. Just in case
 sleep 3
 
-if [[ $ShGODesktop != 1 ]]; then
+if [[ $GoToDesktop != 1 ]]; then
     mkdir -p "$base/$title"
 else
     :
 fi
 
 # might want to change that to make every file move, not just .mp4
-if [[ -z $title || $ShGODesktop == 1 ]]; then
+if [[ -z $title || $GoToDesktop == 1 ]]; then
     mv "$unsorted_base"/*.mp4 "$base/Desktop"
 else
     mv "$unsorted_base"/*.mp4 "$base/$title"
