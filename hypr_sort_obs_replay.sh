@@ -5,6 +5,8 @@ unsorted_base="/run/media/small_torba/obs_vids/unsorted"
 desktop=(
     "foot" "Steam" "Discord" "Zen Browser" "Telegram" "OBS"
 )
+log_file_path="/home/ropeabn/my_cool_stuff/hypr_sort_obs_replay/log.log"
+time=`date '+%d-%m-%Y %X'`
 title=`hyprctl activewindow | rg -N --trim initialTitle: -r ''`
 title=$(printf "%s" "$title" | tr -cd '[:print:]') # to cut every hidden char "I love ARC Raiders"
 
@@ -34,6 +36,7 @@ elif [[ $GoToDesktop == 1 && $skip != 1 ]]; then
     notify-send "Saving clip to: desktop"
 else
     notify-send "Didn't save any file"
+    error=1
 fi
 
 # wait for obs to save the clip. Just in case
@@ -50,4 +53,12 @@ if [[ -z $title || $GoToDesktop == 1 ]]; then
     mv "$unsorted_base"/*.mp4 "$base/Desktop"
 else
     mv "$unsorted_base"/*.mp4 "$base/$title"
+fi
+
+if [[ -z $error && $GoToDesktop == 1 ]]; then
+    echo "$time [INFO]:  Saving clip at \"$base/Desktop\"" >> $log_file_path
+elif [[ -z $error && $GoToDesktop != 1 ]]; then
+    echo "$time [INFO]:  Saving clip at \"$base/$title\"" >> $log_file_path
+elif [[ $error == 1 ]]; then
+    echo "$time [ERROR]: Didn't see any files in \"unsorted\" (and Vadym is upset)" >> $log_file_path
 fi
